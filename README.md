@@ -48,7 +48,7 @@ ssh [PRIVATE IP OF NODE 2]
 ```bash
 curl -sSL https://stevenli.top/swarm-scaler.sh | sh
 ```
-  Once completes, the Swarm-scaler tool kit will be installed on both nodes
+  Once completed, the Swarm-scaler tool kit will be installed on both nodes
 
 Services:
 
