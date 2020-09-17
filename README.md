@@ -7,7 +7,10 @@ swarm-scaler is a tool kit for Docker Swarm monitoring with [Prometheus](https:/
 [Alert Manager](https://github.com/prometheus/alertmanager)
 [Unsee](https://github.com/cloudflare/unsee).
 [Docker Service Scaler API](https://github.com/stevenli2020/docker_service_scaler) and Autoscaler Systemd Service
-Original cluster monitoring stack merged from [swarmprom](https://github.com/stefanprodan/swarmprom.git), Docker Service Scaler and Autoscaler Systemd Services are developed by [Steven Li](https://stevenli.top/profiles/sl/)
+
+Original cluster monitoring stack merged from [swarmprom](https://github.com/stefanprodan/swarmprom.git)
+
+Docker Service Scaler and Autoscaler Systemd Services are developed by [Steven Li](https://stevenli.top/profiles/sl/)
 
 ## Docker Service Scaler
 Docker service Scaler is a RESTful API set that provides Docker Swarm related scaling, it can work with Grafana's Webhook notification channel, use server resources alerts to trigger scaling up/down actions.
