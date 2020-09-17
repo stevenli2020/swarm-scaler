@@ -63,7 +63,7 @@ Services:
 * caddy (reverse proxy and basic auth provider for prometheus, alertmanager and unsee)
 
 
-## Installation Bash Script
+## Installation Bash Script and Notations
 ```bash
 #!/bin/bash
 # System dependancies update
