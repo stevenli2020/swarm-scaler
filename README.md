@@ -6,7 +6,7 @@ swarm-scaler is a tool kit for Docker Swarm monitoring with [Prometheus](https:/
 [Node Exporter](https://github.com/prometheus/node_exporter),
 [Alert Manager](https://github.com/prometheus/alertmanager)
 [Unsee](https://github.com/cloudflare/unsee).
-and [Autoscaler]
+[Docker Service Scaler API](https://github.com/stevenli2020/docker_service_scaler) and Autoscaler Systemd Service
 
 ## Installation
 
