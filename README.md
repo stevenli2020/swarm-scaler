@@ -13,14 +13,48 @@ Docker service Scaler is a RESTful API set that provides Docker Swarm related sc
 
 ## Autoscaler Systemd Services
 Docker Swarm does not provide automated scaling service based on resource indicators. Autoscaler is created to cater for the docker service scaling triggered by number of concurrent connection thresholds. 
-Autoscaler service needs to be run on 2 manager nodes, in case of leader node failure, the Autoscaler from a follower manager node can kick-in and continue the service. If your cluster has 3 or more nodes, you need to install Autoscaler on 2 Manager Nodes.
+Autoscaler service needs to be run on 2 manager nodes, in case of leader node failure, the Autoscaler from a normal manager node can kick-in and continue the service. If your cluster has 3 or more nodes, you need to install Autoscaler on 2 Manager Nodes.
 Autoscaler is configured by modifying the "/etc/autoscaler/config" file. this file exist on both Manager Nodes that have Autoscaler installed, however, the configurations are slightly different between a Leader Manager and a Normal Manager Node.
 
 * `/etc/autoscaler/config` on Leader Manager
 ```bash
-
+{
+	"NODE_MODE": "LEADER",
+	"LEADER_NODE": "0.0.0.0",
+	"AUTOSCALE": [
+		{
+			"SERVICE_NAME": "web",
+			"SAMPLE_INTERVAL": 3,  
+			"MA_POINTS": 10,
+			"CONN_THRESHOLD_H": 40,
+			"CONN_THRESHOLD_L": 5,
+			"STABLIZATION_TIME": 30,
+			"BASE_REP_COUNT": 2,
+			"MAX_REP_COUNT": 10
+		}
+	]
+}
 ```
 
+* `/etc/autoscaler/config` on Normal Manager
+```bash
+{
+	"NODE_MODE": "MANAGER",
+	"LEADER_NODE": "10.130.146.136",
+	"AUTOSCALE": [
+		{
+			"SERVICE_NAME": "web",
+			"SAMPLE_INTERVAL": 3,  
+			"MA_POINTS": 10,
+			"CONN_THRESHOLD_H": 40,
+			"CONN_THRESHOLD_L": 5,
+			"STABLIZATION_TIME": 30,
+			"BASE_REP_COUNT": 2,
+			"MAX_REP_COUNT": 10
+		}
+	]
+}
+```
 
 
 ## Installation
