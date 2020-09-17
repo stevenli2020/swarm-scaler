@@ -59,8 +59,12 @@ def SERVICE_SCALER(SERVICE):
 	while 1:
 		time.sleep(SERVICE['SAMPLE_INTERVAL'])
 		if (CONF['NODE_MODE'] != "LEADER") and LEADER_ONLINE:
-			continue			
-		SERVICE_REPLICAS = int(EXEC("docker service ps "+SVC['SERVICE_NAME']+" -f desired-state=Running -q | wc -l"))
+			continue
+		try:
+			SERVICE_REPLICAS = int(EXEC("docker service ps "+SVC['SERVICE_NAME']+" -f desired-state=Running -q | wc -l"))
+		except:
+			print "Service not available"
+			continue
 		try:
 			ESTABLISHED_CONNECTIONS = int(EXEC("nsenter -t $(docker inspect -f '{{.State.Pid}}' $(docker ps --format {{.Names}} | grep "+SERVICE['SERVICE_NAME']+" | head -1)) -n netstat -pant | grep ESTA | wc -l"))
 		except:
