@@ -63,71 +63,66 @@ Services:
 * caddy (reverse proxy and basic auth provider for prometheus, alertmanager and unsee)
 
 
-
-## Monitoring applications and backend services
-
-You can extend swarmprom with special-purpose exporters for services like MongoDB, PostgreSQL, Kafka,
-Redis and also instrument your own applications using the Prometheus client libraries.
-
-In order to scrape other services you need to attach those to the `mon_net` network so Prometheus
-can reach them. Or you can attach the `mon_prometheus` service to the networks where your services are running.
-
-Once your services are reachable by Prometheus you can add the dns name and port of those services to the
-Prometheus config using the `JOBS` environment variable:
-
-```yaml
-  prometheus:
-    image: stefanprodan/swarmprom-prometheus
-    environment:
-      - JOBS=mongo-exporter:9216 kafka-exporter:9216 redis-exporter:9216
-```
-
-## Monitoring production systems
-
-The swarmprom project is meant as a starting point in developing your own monitoring solution. Before running this
-in production you should consider building and publishing your own Prometheus, node exporter and alert manager
-images. Docker Swarm doesn't play well with locally built images, the first step would be to setup a secure Docker
-registry that your Swarm has access to and push the images there. Your CI system should assign version tags to each
-image. Don't rely on the latest tag for continuous deployments, Prometheus will soon reach v2 and the data store
-will not be backwards compatible with v1.x.
-
-Another thing you should consider is having redundancy for Prometheus and alert manager.
-You could run them as a service with two replicas pinned on different nodes, or even better,
-use a service like Weave Cloud Cortex to ship your metrics outside of your current setup.
-You can use Weave Cloud not only as a backup of your
-metrics database but you can also define alerts and use it as a data source for your Grafana dashboards.
-Having the alerting and monitoring system hosted on a different platform other than your production
-is good practice that will allow you to react quickly and efficiently when a major disaster strikes.
-
-Swarmprom comes with built-in [Weave Cloud](https://www.weave.works/product/cloud/) integration,
-what you need to do is run the weave-compose stack with your Weave service token:
-
+## Installation Bash Script
 ```bash
-TOKEN=<WEAVE-TOKEN> \
-ADMIN_USER=admin \
-ADMIN_PASSWORD=admin \
-docker stack deploy -c weave-compose.yml mon
+#!/bin/bash
+# System dependancies update
+apt update
+
+# Install tools
+apt install -y nano curl net-tools python2.7 netcat
+
+cp /usr/bin/python2.7 /usr/bin/python
+
+# COnfigure private IP addresses of the nodes
+PRIVATE_IP_REMOTE_NODE=10.130.146.136
+
+PRIVATE_IP_LOCAL_NODE=$(ip -4 addr show eth1 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+# Create swarm cluster
+docker swarm init --advertise-addr $PRIVATE_IP_LOCAL_NODE
+
+# Create manager node join-token
+NODE_JOIN_COMMAND=$(docker swarm join-token manager | grep docker)
+
+# SSH and execute node join as manager
+ssh $PRIVATE_IP_REMOTE_NODE "$NODE_JOIN_COMMAND" && docker node ls 
+
+# the remote node must be active and reachable
+# Create application service
+docker service create --name web --replicas=2 -p80:80  nginx
+
+# Installing Swarmprom stack
+git clone https://github.com/stevenli2020/swarm-scaler.git
+
+ADMIN_USER=admin		# input your own admin login id
+
+ADMIN_PASSWORD=admin111 # input your own admin password
+
+cd swarm-scaler
+
+docker stack deploy -c docker-compose.yml mon
+
+# Installing scaler api service container
+docker run --name scaler_api -dit -p8080:80 --restart=always --log-driver json-file --log-opt max-size=10m -v /var/run/docker.sock:/var/run/docker.sock stevenli2019/docker_service_scaler:1.200917
+
+# Installing autoscaler as systemd service
+cp autoscaler/autoscaler.service /etc/systemd/system/.
+
+mkdir /etc/autoscaler
+
+cp autoscaler/config /etc/autoscaler/.
+
+cp autoscaler/autoscaler.py /sbin/.
+
+# Install autoscaler systemd service on leader manager
+systemctl start autoscaler
+
+systemctl enable autoscaler
+
+# Install autoscaler systemd service on remote manager node
+scp -r autoscaler $PRIVATE_IP_REMOTE_NODE:/root/.
+
+ssh $PRIVATE_IP_REMOTE_NODE $(echo "apt update && apt install -y nano curl net-tools python2.7 netcat && cp /usr/bin/python2.7 /usr/bin/python && cp ~/autoscaler/autoscaler.service /etc/systemd/system/. && mkdir /etc/autoscaler && cp ~/autoscaler/config /etc/autoscaler/. && sed -i -- 's/\"LEADER\"/\"FOLLOWER\"/g' /etc/autoscaler/config && sed -i -- 's/\"0.0.0.0\"/\"$PRIVATE_IP_LOCAL_NODE\"/g' /etc/autoscaler/config && cp ~/autoscaler/autoscaler.py /sbin/. && systemctl start autoscaler && systemctl enable autoscaler")
+
 ```
-
-This will deploy Weave Scope and Prometheus with Weave Cortex as remote write.
-The local retention is set to 24h so even if your internet connection drops you'll not lose data
-as Prometheus will retry pushing data to Weave Cloud when the connection is up again.
-
-You can define alerts and notifications routes in Weave Cloud in the same way you would do with alert manager.
-
-To use Grafana with Weave Cloud you have to reconfigure the Prometheus data source like this:
-
-* Name: Prometheus
-* Type: Prometheus
-* Url: https://cloud.weave.works/api/prom
-* Access: proxy
-* Basic auth: use your service token as password, the user value is ignored
-
-Weave Scope automatically generates a map of your application, enabling you to intuitively understand,
-monitor, and control your microservices based application.
-You can view metrics, tags and metadata of the running processes, containers and hosts.
-Scope offers remote access to the Swarm’s nods and containers, making it easy to diagnose issues in real-time.
-
-![Scope](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/weave-scope.png)
-
-![Scope Hosts](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/weave-scope-hosts-v2.png)
