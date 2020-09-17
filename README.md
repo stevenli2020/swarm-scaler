@@ -57,7 +57,7 @@ Autoscaler is configured by modifying the "/etc/autoscaler/config" file. this fi
 ```
 
 
-Once started, the Autoscaler will poll for concurrent port 80 connections on the first container of "web" service. 
+Once started, the Autoscaler will poll for concurrent established connections (any tcp port) on the first container of "web" service. 
 
 `CONN_THRESHOLD_H` and `CONN_THRESHOLD_L`: if the number of connection exceeds `CONN_THRESHOLD_H` or drops below `CONN_THRESHOLD_L`, scaling action will be triggered, "web" service containers will be deployed or reduced (in the step of 2) in order to share the current connections. 
 
