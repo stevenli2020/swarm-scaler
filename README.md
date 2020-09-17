@@ -8,7 +8,34 @@ swarm-scaler is a tool kit for Docker Swarm monitoring with [Prometheus](https:/
 [Unsee](https://github.com/cloudflare/unsee).
 and [Autoscaler]
 
-## Install
+## Installation
+
+Prerequisites:
+
+* Docker CE 17.09.0-ce or Docker EE 17.06.2-ee-3
+* At least 2 nodes within a private network
+* Docker engine experimental enabled and metrics address set to `0.0.0.0:9323`
+
+Nodes Setup:
+
+* On the first node
+
+```bash
+ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ""
+cat .ssh/id_rsa.pub
+```
+From the above commands, you will be able to get the public RSA key of Node 1
+
+* On the second node
+
+```bash
+ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ""
+echo "[RSA PUBLIC KEY FROM NODE 1]" >> .ssh/authorized_keys
+ip -4 addr show eth1 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+
+```
+
+
 
 Clone this repository and run the monitoring stack:
 
@@ -24,11 +51,6 @@ ADMIN_PASSWORD=admin \
 docker stack deploy -c docker-compose.yml mon
 ```
 
-Prerequisites:
-
-* Docker CE 17.09.0-ce or Docker EE 17.06.2-ee-3
-* Swarm cluster with one manager and a worker node
-* Docker engine experimental enabled and metrics address set to `0.0.0.0:9323`
 
 Services:
 
