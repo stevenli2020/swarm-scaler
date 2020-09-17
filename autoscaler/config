@@ -1,0 +1,16 @@
+{
+	"NODE_MODE": "LEADER",
+	"LEADER_NODE": "0.0.0.0",
+	"AUTOSCALE": [
+		{
+			"SERVICE_NAME": "web",
+			"SAMPLE_INTERVAL": 3,  
+			"MA_POINTS": 10,
+			"CONN_THRESHOLD_H": 40,
+			"CONN_THRESHOLD_L": 5,
+			"STABLIZATION_TIME": 30,
+			"BASE_REP_COUNT": 2,
+			"MAX_REP_COUNT": 10
+		}
+	]
+}
