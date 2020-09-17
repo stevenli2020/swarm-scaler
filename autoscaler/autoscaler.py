@@ -43,7 +43,7 @@ def CHECK_LEADER():
 	while 1: 
 		print "Check if leader node is online"
 		try:
-			if EXEC("echo 'ALOHA' | nc -w 1 -u 10.130.64.229 733").strip() == "ALOHA":
+			if EXEC("echo 'ALOHA' | nc -w 1 -u "+CONF['LEADER_NODE']+" 733").strip() == "ALOHA":
 				LEADER_ONLINE = True
 				print "- leader node is online"
 			else: 
