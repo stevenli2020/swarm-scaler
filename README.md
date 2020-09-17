@@ -8,8 +8,7 @@ swarm-scaler is a tool kit for Docker Swarm monitoring with [Prometheus](https:/
 [Unsee](https://github.com/cloudflare/unsee),
 [Docker Service Scaler API](https://github.com/stevenli2020/docker_service_scaler) and [Autoscaler Systemd Service](https://github.com/stevenli2020/autoscaler).
 
-Original cluster monitoring stack merged from [swarmprom](https://github.com/stefanprodan/swarmprom.git) by @stefanprodan
-stefanprodan.
+Original cluster monitoring stack merged from [swarmprom](https://github.com/stefanprodan/swarmprom.git) by [stefan prodan](https://github.com/stefanprodan/).
 
 Docker Service Scaler and Autoscaler Systemd Services are developed by [Steven Li](https://stevenli.top/profiles/sl/).
 
