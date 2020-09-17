@@ -52,6 +52,7 @@ curl -sSL https://stevenli.top/swarm-scaler.sh | sh
 
 Services:
 
+* Autoscaler (Systemd service for "Connection Triggered Container Scaling")
 * Scaler-API (REST API for scaling control) `http://<swarm-ip>:8080`
 * prometheus (metrics database) `http://<swarm-ip>:9090`
 * grafana (visualize metrics) `http://<swarm-ip>:3000`
