@@ -7,7 +7,7 @@ Type=simple
 Restart=always
 RestartSec=2
 User=root
-ExecStart=/usr/bin/python php /sbin/autoscaler.py
+ExecStart=/usr/bin/python /sbin/autoscaler.py
 
 [Install]
 WantedBy=multi-user.target

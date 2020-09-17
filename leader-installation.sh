@@ -14,3 +14,6 @@ ADMIN_PASSWORD=admin111 # input your own admin password
 cd swarm-scaler
 docker stack deploy -c docker-compose.yml mon
 docker run --name scaler_api -dit -p8080:80 --restart=always --log-driver json-file --log-opt max-size=10m -v /var/run/docker.sock:/var/run/docker.sock stevenli2019/docker_service_scaler:1.200917
+cp autoscaler/autoscaler.service /etc/systemd/system/.
+mkdir /etc/autoscaler
+cp autoscaler/config /etc/autoscaler/.
