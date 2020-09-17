@@ -57,6 +57,13 @@ Autoscaler is configured by modifying the "/etc/autoscaler/config" file. this fi
 ```
 
 
+Once started, the Autoscaler will probe poll for concurrent port 80 connections on the first container of "web" service. 
+CONN_THRESHOLD_H and CONN_THRESHOLD_L if the number of connection exceeds CONN_THRESHOLD_H or drops below CONN_THRESHOLD_L, scaling action will be triggered, "web" service containers will be deployed or reduced (in the step of 2) in order to share the current connections. Normally it requires some time for new connections to be distributed evenly, therefore STABLIZATION_TIME is set as a guard time to prevent continuous scaling in one direction. 
+BASE_REP_COUNT and MAX_REP_COUNT provides a scaling range, autoscaler will only scale within this range.
+MA_POINTS sets Moving Average of concurrent connections from MA_POINTS number of polls, it is useful to reduce the false trigger by connection surges or sudden drops.
+
+
+
 ## Installation
 
 Prerequisites:
