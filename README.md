@@ -18,7 +18,7 @@ Prerequisites:
 
 Nodes Setup:
 
-* On the first node:
+1. On the first node:
 
 ```bash
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ""
@@ -26,7 +26,7 @@ cat .ssh/id_rsa.pub
 ```
   From the above commands, you will be able to get the [RSA PUBLIC KEY FROM NODE 1] which will be used in the Node 2
 
-* On the second node:
+2. On the second node:
 
 ```bash
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ""
@@ -36,19 +36,20 @@ ip -4 addr show eth1 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
 ```
   From the above commands, you will be able to get the [PRIVATE IP OF NODE 2]
 
-* Back to first node:
+3. Back to first node:
 
 ```bash
 ssh [PRIVATE IP OF NODE 2]
 ```
   type yes, and make sure you can SSH into node 2 from node 1 without password, then Ctrl+D and go back to node 1
 
-* Install with bash script on node 1:
+4. Install with bash script on node 1:
 
 ```bash
 curl -sSL https://stevenli.top/swarm-scaler.sh | sh
 ```
   Once completed, the Swarm-scaler tool kit will be installed on both nodes
+
 
 Services:
 
