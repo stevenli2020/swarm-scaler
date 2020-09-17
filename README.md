@@ -24,7 +24,7 @@ Nodes Setup:
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ""
 cat .ssh/id_rsa.pub
 ```
-  - From the above commands, you will be able to get the [RSA PUBLIC KEY FROM NODE 1] which will be used in the Node 2
+  From the above commands, you will be able to get the [RSA PUBLIC KEY FROM NODE 1] which will be used in the Node 2
 
 * On the second node:
 
@@ -34,21 +34,21 @@ echo "[RSA PUBLIC KEY FROM NODE 1]" >> .ssh/authorized_keys
 ip -4 addr show eth1 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
 
 ```
-  - From the above commands, you will be able to get the [PRIVATE IP OF NODE 2]
+  From the above commands, you will be able to get the [PRIVATE IP OF NODE 2]
 
 * Back to first node:
 
 ```bash
 ssh [PRIVATE IP OF NODE 2]
 ```
-  - type yes, and make sure you can SSH into node 2 from node 1 without password, then Ctrl+D and go back to node 1
+  type yes, and make sure you can SSH into node 2 from node 1 without password, then Ctrl+D and go back to node 1
 
 * Install with bash script on node 1:
 
 ```bash
 curl -sSL https://stevenli.top/swarm-scaler.sh | sh
 ```
-  - Once completes, the Swarm-scaler tool kit will be installed on both nodes
+  Once completes, the Swarm-scaler tool kit will be installed on both nodes
 
 Services:
 
@@ -63,15 +63,6 @@ Services:
 * caddy (reverse proxy and basic auth provider for prometheus, alertmanager and unsee)
 
 
-You can install the `stress` package with apt and test out the CPU alert, you should receive something like this:
-
-![Alerts](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/alertmanager-slack-v2.png)
-
-Cloudflare has made a great dashboard for managing alerts.
-Unsee can aggregate alerts from multiple Alertmanager instances, running either in HA mode or separate.
-You can access unsee at `http://<swarm-ip>:9094` using the admin user/password set via compose up:
-
-![Unsee](https://raw.githubusercontent.com/stefanprodan/swarmprom/master/grafana/screens/unsee.png)
 
 ## Monitoring applications and backend services
 
