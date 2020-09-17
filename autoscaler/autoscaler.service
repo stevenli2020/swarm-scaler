@@ -1,0 +1,13 @@
+[Unit]
+Description=Autoscaling containers on connection thresholds
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=2
+User=root
+ExecStart=/usr/bin/python php /sbin/autoscaler.py
+
+[Install]
+WantedBy=multi-user.target
