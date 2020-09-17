@@ -18,15 +18,15 @@ Prerequisites:
 
 Nodes Setup:
 
-* On the first node
+* On the first node:
 
 ```bash
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ""
 cat .ssh/id_rsa.pub
 ```
-From the above commands, you will be able to get the public RSA key of Node 1
+**From the above commands, you will be able to get the [RSA PUBLIC KEY FROM NODE 1] which will be used in the Node 2
 
-* On the second node
+* On the second node:
 
 ```bash
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -P ""
@@ -34,8 +34,6 @@ echo "[RSA PUBLIC KEY FROM NODE 1]" >> .ssh/authorized_keys
 ip -4 addr show eth1 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
 
 ```
-
-
 
 Clone this repository and run the monitoring stack:
 
