@@ -63,7 +63,7 @@ def SERVICE_SCALER(SERVICE):
 		try:
 			SERVICE_REPLICAS = int(EXEC("docker service ps "+SVC['SERVICE_NAME']+" -f desired-state=Running -q | wc -l"))
 		except:
-			print "Service not available"
+			print "Service '"+SVC['SERVICE_NAME']+"' not found"
 			continue
 		try:
 			ESTABLISHED_CONNECTIONS = int(EXEC("nsenter -t $(docker inspect -f '{{.State.Pid}}' $(docker ps --format {{.Names}} | grep "+SERVICE['SERVICE_NAME']+" | head -1)) -n netstat -pant | grep ESTA | wc -l"))
