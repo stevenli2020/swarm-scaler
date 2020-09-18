@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import os, string, random, time, socket, thread, sys, commands, json
+from select import select
 
 LEADER_ONLINE = True
 SCALING = False
@@ -33,6 +34,28 @@ def UDP_ECHO():
 			print("Service stopped")
 			time.sleep(2)
 
+def ALOHA(ADDR):
+	try :
+		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+		s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+		s.settimeout(None)
+		s.setblocking(0)
+	except socket.error, msg :
+		print 'Failed to create socket. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+		return
+	try:
+		s.sendto("ALOHA",ADDR)
+		rfds,_,_ = select( [s], [], [], 1)
+		if not rfds:
+			s.close()
+			return
+		elif s in rfds:       		
+			rxdata, addr = s.recvfrom(256)
+			s.close()
+			return rxdata
+	except Exception, e:
+		s.close()
+		return			
 			
 def EXEC(CMD):
 	ERR_SUCCESS,OUTPUT = commands.getstatusoutput(CMD)
@@ -43,7 +66,7 @@ def CHECK_LEADER():
 	while 1: 
 		print "Check if leader node is online"
 		try:
-			if EXEC("echo 'ALOHA' | nc -w 1 -u "+CONF['LEADER_NODE']+" 733").strip() == "ALOHA":
+			if ALOHA((CONF['LEADER_NODE'],733)) == "ALOHA":
 				LEADER_ONLINE = True
 				print "- leader node is online"
 			else: 
