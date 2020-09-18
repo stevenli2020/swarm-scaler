@@ -23,7 +23,7 @@ Autoscaler is configured by modifying the "/etc/autoscaler/config" file. this fi
 * `/etc/autoscaler/config` on Leader Manager
 ```bash
 {
-	"NODE_MODE": "__LEADER__",
+	"NODE_MODE": "**LEADER**",
 	"LEADER_NODE": "__0.0.0.0__",
 	"AUTOSCALE": [
 		{
