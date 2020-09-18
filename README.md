@@ -110,9 +110,22 @@ ssh [PRIVATE IP OF NODE 2]
 
 4. Install with bash script on node 1:
 
+Ubuntu / Debian
 ```bash
-curl -sSL https://raw.githubusercontent.com/stevenli2020/swarm-scaler/master/install.sh | sh
+curl -sSL https://raw.githubusercontent.com/stevenli2020/swarm-scaler/master/install.sh -O install.sh
 ```
+
+Centos
+```bash
+curl -sSL https://raw.githubusercontent.com/stevenli2020/swarm-scaler/master/centos-install.sh -O install.sh
+```
+
+Then you should edit the installation script **install.sh** and update the `PRIVATE_IP_REMOTE_NODE` and `PRIVATE_IP_REMOTE_NODE` values with the nodes' IP addresses. Once ready, execute the bash script to install -
+
+```bash
+sh install.sh
+```
+
   Once completed, the Swarm-scaler tool kit will be installed on both nodes
 
 
