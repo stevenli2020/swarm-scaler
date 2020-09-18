@@ -3,7 +3,7 @@
 yum check-update
 
 # Install tools
-yum install -y nano curl net-tools python2.7 netcat git
+yum install -y nano curl net-tools python2.7 nc git
 
 # COnfigure private IP addresses of the nodes
 PRIVATE_IP_REMOTE_NODE=10.130.146.136
@@ -58,7 +58,7 @@ systemctl enable autoscaler
 
 # Install autoscaler systemd service on remote manager node
 scp -r autoscaler $PRIVATE_IP_REMOTE_NODE:/root/.
-printf "yum check-update\nyum install -y nano curl net-tools python2.7 netcat\ncp ~/autoscaler/autoscaler.service /etc/systemd/system/.\nmkdir /etc/autoscaler\ncp ~/autoscaler/config /etc/autoscaler/.\nsed -i -- 's/\"LEADER\"/\"FOLLOWER\"/g' /etc/autoscaler/config\nsed -i -- 's/\"0.0.0.0\"/\"$PRIVATE_IP_LOCAL_NODE\"/g' /etc/autoscaler/config\ncp ~/autoscaler/autoscaler.py /sbin/.\nsystemctl start autoscaler\nsystemctl enable autoscaler\n" > setup.sh
+printf "yum check-update\nyum install -y nano curl net-tools python2.7 nc\ncp ~/autoscaler/autoscaler.service /etc/systemd/system/.\nmkdir /etc/autoscaler\ncp ~/autoscaler/config /etc/autoscaler/.\nsed -i -- 's/\"LEADER\"/\"FOLLOWER\"/g' /etc/autoscaler/config\nsed -i -- 's/\"0.0.0.0\"/\"$PRIVATE_IP_LOCAL_NODE\"/g' /etc/autoscaler/config\ncp ~/autoscaler/autoscaler.py /sbin/.\nsystemctl start autoscaler\nsystemctl enable autoscaler\n" > setup.sh
 scp setup.sh $PRIVATE_IP_REMOTE_NODE:/root/.
 ssh $PRIVATE_IP_REMOTE_NODE sh setup.sh
 
