@@ -111,7 +111,7 @@ ssh [PRIVATE IP OF NODE 2]
 4. Install with bash script on node 1:
 
 ```bash
-curl -sSL https://stevenli.top/swarm-scaler.sh | sh
+curl -sSL https://raw.githubusercontent.com/stevenli2020/swarm-scaler/master/install.sh | sh
 ```
   Once completed, the Swarm-scaler tool kit will be installed on both nodes
 
