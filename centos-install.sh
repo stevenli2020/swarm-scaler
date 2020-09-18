@@ -26,7 +26,7 @@ docker node ls
 
 # the remote node must be active and reachable
 # Create application service
-docker service create --name web --replicas=2 -p80:80  nginx
+docker service create --name web --replicas=2 -p10080:80  nginx
 
 # Installing Swarmprom stack
 git clone https://github.com/stevenli2020/swarm-scaler.git
