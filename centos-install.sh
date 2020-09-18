@@ -6,13 +6,13 @@ yum check-update
 yum install -y nano curl net-tools python2.7 nc git
 
 # COnfigure private IP addresses of the nodes
-PRIVATE_IP_REMOTE_NODE=10.130.146.136
-
-PRIVATE_IP_LOCAL_NODE=$(ip -4 addr show eth1 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+PRIVATE_IP_REMOTE_NODE=xx.xx.xx.xx
+PRIVATE_IP_LOCAL_NODE=yy.yy.yy.yy
 
 # Start docker daemon
 systemctl start docker
 systemctl enable docker
+ssh PRIVATE_IP_REMOTE_NODE systemctl start docker && systemctl enable docker
 
 # Create swarm cluster
 docker swarm init --advertise-addr $PRIVATE_IP_LOCAL_NODE
@@ -53,7 +53,6 @@ cp autoscaler/autoscaler.py /sbin/.
 
 # Install autoscaler systemd service on leader manager
 systemctl start autoscaler
-
 systemctl enable autoscaler
 
 # Install autoscaler systemd service on remote manager node
