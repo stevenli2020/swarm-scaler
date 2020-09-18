@@ -69,7 +69,7 @@ Normally it requires some time for new connections to be distributed evenly, the
 
 `BASE_REP_COUNT` and `MAX_REP_COUNT` provides a scaling range, autoscaler will only scale within this range.
 
-`MA_POINTS` sets Moving Average of concurrent connections from MA_POINTS number of polls, it is useful to reduce the false trigger by connection surges or sudden drops.
+`MA_POINTS` sets Moving Average of concurrent connections from `MA_POINTS` number of polls, it is useful to reduce the false trigger by connection surges or sudden drops.
 
 
 
