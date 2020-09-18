@@ -23,8 +23,8 @@ Autoscaler is configured by modifying the "/etc/autoscaler/config" file. this fi
 * `/etc/autoscaler/config` on Leader Manager
 ```bash
 {
-	"NODE_MODE": "**LEADER**",
-	"LEADER_NODE": "__0.0.0.0__",
+	"NODE_MODE": "LEADER",
+	"LEADER_NODE": "0.0.0.0",
 	"AUTOSCALE": [
 		{
 			"SERVICE_NAME": "web",
@@ -43,8 +43,8 @@ Autoscaler is configured by modifying the "/etc/autoscaler/config" file. this fi
 * `/etc/autoscaler/config` on Normal Manager
 ```bash
 {
-	"NODE_MODE": "__MANAGER__",
-	"LEADER_NODE": "__10.130.146.136__",
+	"NODE_MODE": "MANAGER",
+	"LEADER_NODE": "10.130.146.136",
 	"AUTOSCALE": [
 		{
 			"SERVICE_NAME": "web",
