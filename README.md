@@ -120,7 +120,7 @@ Centos
 curl -sSL https://raw.githubusercontent.com/stevenli2020/swarm-scaler/master/centos-install.sh -O install.sh
 ```
 
-Then you should edit the installation script **install.sh** and update the `PRIVATE_IP_REMOTE_NODE` and `PRIVATE_IP_REMOTE_NODE` values with the nodes' IP addresses. Once ready, execute the bash script to install -
+Then you should edit the installation script **install.sh** and update the `PRIVATE_IP_LOCAL_NODE` and `PRIVATE_IP_REMOTE_NODE` values with the nodes' IP addresses. Once ready, execute the bash script to install -
 
 ```bash
 sh install.sh
